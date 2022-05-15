@@ -26,18 +26,25 @@ using DataFrames,Plots, PlutoUI
 # ╔═╡ 981d8a33-b8f0-430e-a830-48229f88f162
 using Distributions
 
-# ╔═╡ 6dd4a604-d368-11ec-07be-5f0eaf1ddd96
-md"Gilles De Sloover, Maurits Ranson, Aster Van de Vijver en Noa Van de Velde"
+# ╔═╡ 588179f0-7172-4725-9d7a-3c173ade3c71
+md"Gilles De Sloover, Maurits Ranson, Noa Van de Velde en Aster Van de Vijver "
 
 # ╔═╡ f40499ad-4189-4ee1-bc82-ea7d6b5f95b4
 md"# Modelleren van algen in koralen"
 
+# ╔═╡ 3a9b72c5-257e-4b3b-a06f-8857c941b103
+md"## Maatschappelijk probleem"
+
 # ╔═╡ cbcf34f2-0d0e-4cb0-86cb-b4402075b3e5
 md"Het Great Barrier Reef, gelegen aan de kust van Queensland in Australië, is het grootste koraalrif ter wereld. Het is een prachtig ecosysteem waarvan de ecosysteemdiensten een vitale functie uitoefenen voor veel plaatselijke gemeenschappen. In 1997 werd duidelijk dat klimaatverandering een negatieve invloed had op de werking van het rif, dit jaar werd dan ook uitgeroepen tot jaar van het rif (UNSW Australia iGEM 2020, 2020).
 
-In 2020 probeert het Australische team van de iGEM-competitie dit complex probleem door middel van een genetisch circuit  aan te pakken. Zij focusten op de invloed van een temperatuursstijging op de symbiose tussen het koraal en micro-algen zoals *Symbiodinium* spp.. Koralen en micro-algen zijn afhankelijk van elkaar voor hun overleving. De algen doen dienst als de primaire voedselbron voor het koraal en zorgen voor hun kleur (NOAA, 2021). Door een stijging in temperatuur ondervinden de micor-algen oxidatieve stress veroorzaakt door verhoogde ROS niveaus (Lesser, 1997). Hierdoor verliezen koralen hun symbiose met de micro-algen waardoor ze sterven en verbleken (NOAA, 2021). Dit fenomeen heet *coral bleaching*.
+In 2020 probeert het Australische team van de iGEM-competitie dit complex probleem door middel van een genetisch circuit  aan te pakken. Zij focusten op de invloed van een temperatuursstijging op de symbiose tussen het koraal en micro-algen zoals *Symbiodinium* spp.. Koralen en micro-algen zijn afhankelijk van elkaar voor hun overleving. De algen doen dienst als de primaire voedselbron voor het koraal en zorgen voor hun kleur (NOAA, 2021). Door een stijging in temperatuur ondervinden de micor-algen oxidatieve stress veroorzaakt door verhoogde ROS niveaus (Lesser, 1997). Hierdoor verliezen koralen hun symbiose met de micro-algen waardoor ze sterven en verbleken (NOAA, 2021). Dit fenomeen heet *coral bleaching*."
 
-Onder normale omstandigheden is er een evenwicht tussen de aanmaak en afbraak
+# ╔═╡ 35f136e6-e97c-456f-a447-7660655411a3
+md"## Moleculaire mechanismen"
+
+# ╔═╡ 36e38a8e-9d27-4376-8a9a-6ae45814ee31
+md"Onder normale omstandigheden is er een evenwicht tussen de aanmaak en afbraak
 van verkeerd opgevouwen eiwitten. Onder invloed van reactieve zuurstof
 species (ROS) worden ze uit goed opgevouwen eiwitten aangemaakt, door natuurlijke reparatiesystemen kunnen ze vervolgens afgebroken worden. Wanneer de temperatuur van het zeewater in het rif echter te veel stijgt komt er meer ROS vrij, waardoor  het evenwicht verstoord wordt. Er worden meer natuurlijke eiwitten afgebroken en de natuurlijke systemen kunnen niet alle verkeerd opgevouwen eiwitten op tijd afbreken. Hierdoor accumuleren deze in de cel en verliezen de micro-algen aan functie. Dit natuurlijk systeem wordt hieronder beschreven."
 
@@ -55,7 +62,7 @@ k₁₂, MisP --> ∅
 end k₁ k₂ k₃ k₄ k₅ k₁₂
 
 # ╔═╡ 5a6f6976-28a2-453e-b187-64afb1c13cc6
-md"Het genetisch circuit dat hieronder gemodelleerd wordt is gebaseerd op dat van UNSW Australia iGEM 2020 (2020). ROS is de input en wordt gedetecteerd door OxyR, een transcriptiefactor. Dit is de inputmodule. OxyR activeert in de twee systemen: het glutathion systeem en het *heat shock protein*(HSP) systeem. Gereduceerd glutathion kan ROS neutraliseren, hierbij wordt geoxideerd glutathion gevormd dat veel minder reactief is dan ROS. Dit geoxideerd glutathion kan nadien terug omgezet worden tot gereduceerd glutathion. Om deze reacties uit te voeren zijn twee enzymen nodig: glutathion synthetase en glutathion reductase. OxyR zorgt verder ook voor expressie van genen die coderen voor HSP's, die verkeerd opgevouwen eiwitten correct opvouwen."
+md"Het genetisch circuit dat hieronder gemodelleerd wordt is gebaseerd op dat van UNSW Australia iGEM 2020 (2020). ROS is de input en wordt gedetecteerd door OxyR, een transcriptiefactor. Dit is de inputmodule. OxyR activeert in de *processing* stap twee systemen: het glutathion systeem en het *heat shock protein* (HSP) systeem. OxyR zorgt ervoor dat gereduceerd glutathion (ReducedGlutathione) geproduceerd wordt. Gereduceerd glutathion kan ROS neutraliseren, hierbij wordt geoxideerd glutathion (OxidisedGlutathione) gevormd dat veel minder reactief is dan ROS. Dit geoxideerd glutathion kan nadien terug omgezet worden tot gereduceerd glutathion. Om deze reacties uit te voeren zijn twee enzymen nodig: glutathion synthetase en glutathion reductase. OxyR zorgt verder ook voor expressie van genen die coderen voor HSP's, die verkeerd opgevouwen eiwitten correct opvouwen. De outputmodule is de expressie van de genen die coderen voor glutathion synthetase, glutathion reductase en HSP's. Deze eiwitten zijn dan ook de \textit{outputs} van ons systeem. Het genetisch circuit wordt als volgt voorgesteld:"
 
 # ╔═╡ 0a0c17fc-b0c1-4085-a4a3-591de88cf901
 Corals = @reaction_network Corals begin 
@@ -92,40 +99,10 @@ odesysNat = convert(ODESystem, CoralsNat)
 # ╔═╡ 023b3d93-f2c6-4d5b-926c-e68b31b43c52
 odesysGen = convert(ODESystem, Corals)
 
-# ╔═╡ 00d98bde-9231-4ae7-87ac-8a6996e7b6f5
-struct MySlider 
-    range::AbstractRange
-    default::Number
-end
-
 # ╔═╡ 4ce3ca2a-0332-4fba-b042-4b1ad45317cd
-md"Om ook de temperatuurverhoging in rekening te brengen werd volgende redenering uit hetzelfde iGEM project gevolgd. De waarden voor de reactiesnelheidsconstanten (k-waarden) zijn gerelateerd aan de temperatuur volgens de vergelijking van Arrhenius: $k = Ae^{\frac{-E_a}{RT}}$.A stelt hier de frequentiefactor voor. Deze is specifiek voor een bepaalde reactie bij een bepaalde temperatuur maar verandert nauwelijks bij een temperatuurstijging. $E_{a}$ is de activeringsenergie $[\,J\,]$, R is de gasconstante $[\,J\, K^{-1}\, mol^{-1}\,]$ en T is de temperatuur $[\,K\,]$.
+md"Om ook de temperatuurverhoging in rekening te brengen werd volgende redenering uit hetzelfde iGEM project gevolgd. De waarden voor de reactiesnelheidsconstanten (k-waarden) zijn gerelateerd aan de temperatuur volgens de vergelijking van Arrhenius: $k = Ae^{\frac{-E_a}{RT}}$. A stelt hier de frequentiefactor voor. Deze is specifiek voor een bepaalde reactie bij een bepaalde temperatuur maar verandert nauwelijks bij een temperatuurstijging. $E_{a}$ is de activeringsenergie $[\,J\,]$, R is de gasconstante $[\,J\, K^{-1}\, mol^{-1}\,]$ en T is de temperatuur $[\,K\,]$.
 
-De factor die hieronder gedefinieerd wordt is de verhouding tussen een gekozen temperatuur en de referentietemperatuur, hier 25°C. Aangezien verhoogde temperaturen vooral een sterke invloed op ROS productie hebben, is de factor in rekening gebracht bij de reactie waar ROS geproduceerd wordt (k₅)(Fedyaeva et al., 2014). We verwaarlozen het effect van de temperatuur op de andere k-waarden."
-
-# ╔═╡ c7c5088f-5513-45b0-a9fe-5038931dd542
-function Base.show(io::IO, ::MIME"text/html", slider::MySlider)
-    print(io, """
-		<input type="range" 
-		min="$(first(slider.range))" 
-		step="$(step(slider.range))"
-		max="$(last(slider.range))" 
-		value="$(slider.default)"
-		oninput="this.nextElementSibling.value=this.value">
-		<output>$(slider.default)</output>""")
-end
-
-# ╔═╡ 5983069f-1b7f-4a02-843d-569d61e0e214
-md"Temperatuur: $(@bind temp MySlider(25:40, 25)) °C"
-
-# ╔═╡ 2ed8a86b-ba1c-4a72-af0d-994c137d3337
-@bind temp2 Slider(25:40, default=25)
-
-# ╔═╡ deb2638b-50db-4bb8-99a6-6992845e415d
-md"Temperature: (25 -40): $temp2 °C"
-
-# ╔═╡ 91a5da39-ae33-465d-a9eb-23c6ab07c753
-factor = exp(-100000/(8.314*(temp2+273)))/exp(-100000/(8.314*298))
+De factor die hieronder gedefinieerd wordt is de verhouding tussen een gekozen temperatuur en de referentietemperatuur, hier 25°C. De gekozen temperatuur wordt ingesteld met een slider onderaan de simulatie. Aangezien verhoogde temperaturen vooral een sterke invloed op ROS productie hebben, is de factor in rekening gebracht bij de reactie waar ROS geproduceerd wordt (k₅)(Fedyaeva et al., 2014). We verwaarlozen het effect van de temperatuur op de andere k-waarden."
 
 # ╔═╡ 7c96615d-8bac-4ecc-b0a3-78d6ca5b061c
 md"Vervolgens werden volgende reactiesnelheidsconstanten en initiële waarden gedefinieerd:"
@@ -139,10 +116,19 @@ Alle initiële waarden van de variabelen zijn ook afkomstig van UNSW Australia i
 md"Hieronder worden de differentiaalvergelijkingen opgelost. Eerst wordt er een ODEProblem van gemaakt met behulp van de reactiesnelheidsconstanten en initiële waarden. Dit wordt vervolgens opgelost volgens de Rosenbrock methode voor stijve differentiaalvergelijkingen."
 
 # ╔═╡ 1f5ab1ff-d84d-4eb4-9c6d-98c6d853fdaa
-md"Nu het model is opgelost, kunnen de resultaten weergegeven worden. Op onderstaande grafieken is het verloop van ROS en MisP te zien doorheen de tijd. Met onderstaande slider kan een temperatuurverhoging in rekening gebracht worden."
+md"Nu het model is opgelost, kunnen de resultaten weergegeven worden. Op onderstaande grafieken is het verloop van ROS en MisP te zien doorheen de tijd. Met onderstaande slider kan een temperatuursverhoging in rekening gebracht worden."
+
+# ╔═╡ 7dddc2ae-b2af-45f8-8f72-2a5b61a84fa9
+@bind temp2 Slider(25:40, default=25)
+
+# ╔═╡ 91a5da39-ae33-465d-a9eb-23c6ab07c753
+factor = exp(-100000/(8.314*(temp2+273)))/exp(-100000/(8.314*298))
+
+# ╔═╡ 5ce768f9-99f9-428b-a43f-cc362be73322
+md"Temperatuur (25 - 40 °C): $temp2 °C"
 
 # ╔═╡ 1f66fcac-d3cd-4d2d-a407-4df08229ccd4
-md"Bij 25°C is zowel ROS als MisP in evenwicht voor het natuurlijk systeem. Als de temperatuur echter opgedreven wordt, evolueren ROS en MisP in stijgende lijn in functie van de tijd. Ook valt te zien dat het genetisch circuit zijn werk doet, het zal zowel ROS als MisP afbreken bij elke temperatuur."
+md"Bij 25°C is zowel ROS als MisP in evenwicht voor het natuurlijk systeem, de hoeveelheid ROS en verkeerd opgevouwen eiwitten dalen door de toevoeging van het genetisch circuit. Als de temperatuur opgedreven wordt, evolueren ROS en MisP in stijgende lijn in functie van de tijd voor het natuurlijk systeem. Bij verhoogde temperaturen zal er initieel een kleine stijging zijn in ROS maar uiteindelijk worden ze toch net zoals MisP afgebroken door het genetisch circuit."
 
 # ╔═╡ 54f57c15-8a41-4b68-aa04-bc87a073c728
 md"## Monte Carlo analyse voor onzekerheid over k₅"
@@ -218,7 +204,7 @@ md"# Extra code"
 md"### Simulatie van het model"
 
 # ╔═╡ eaff7b81-ca3c-4b94-a5c8-0643d0b28711
-md"Onderstaande code definieert de snelheidreactieconstanten, initiële waarden, nog enkele packages en de benodigde data frames voor het maken van de figuren."
+md"Onderstaande code definieert de snelheidreactieconstanten, variabelen, nog enkele packages en de benodigde data frames voor het maken van de figuren."
 
 # ╔═╡ e46e7b9f-ffa2-47db-befb-844c974fa773
 @parameters k₁ k₂ k₃ k₄ k₅ k₆ k₇ k₈ k₉ k₁₀ k₁₁ k₁₂
@@ -266,14 +252,14 @@ DataGen = DataFrame(solGen)
 begin
     plot(DataNat[:,1], DataNat[:,2],label = "Natuurlijk systeem")
     plot!(DataGen[:,1], DataGen[:,2],label = "Genetisch circuit")
-	plot!(title = "Verloop van ROS over tijd", xlabel = "Tijd", ylabel = "ROS(t)")
+	plot!(title = "Verloop van ROS over tijd", xlabel = "Tijd [s]", ylabel = "ROS [aantal moleculen]")
 end
 
 # ╔═╡ a6a6fee5-0e51-4d6b-ae3e-f222aa070aed
 begin
     plot(DataNat[:,1], DataNat[:,4],label = "Natuurlijk systeem", ylims = (290000, 310000))
     plot!(DataGen[:,1], DataGen[:,4],label = "Genetisch circuit")
-	plot!(title = "Verloop van MisP over tijd", xlabel = "Tijd", ylabel = "MisP(t)")
+	plot!(title = "Verloop van MisP over tijd", xlabel = "Tijd [s]", ylabel = "MisP [aantal moleculen]")
 end
 
 # ╔═╡ 231d90d7-d01c-4e91-a7a6-e3d39e33f73f
@@ -322,13 +308,13 @@ md"Data voor de grafieken bij Monte Carlo analyse:"
 throws1, θs1 = monte_carloNat(simulate_coralsNat, Pk₅, n = 100)
 
 # ╔═╡ dedf32e7-fb37-4e50-97b3-9661118a6b5b
-pmc1 = plotMC(throws1; title="MC voor ROS in het natuurlijk systeem\n(steekproef van k₅)")
+pmc1 = plotMC(throws1; title="MC voor ROS in het natuurlijk systeem\n(steekproef van k₅)",xlabel = "Tijd [s]", ylabel = "ROS [aantal moleculen]", dpi = 400, size = (600,400))
 
 # ╔═╡ 9521cdd1-8281-4ed0-9f9b-872c90932942
 throws2, θs2 = monte_carlo(simulate_corals, Pk₅, n = 100)
 
 # ╔═╡ 0cd2bda9-0fcc-4c76-a92c-879dfff60a88
-pcm2 = plotMC(throws2; title="MC voor ROS in het genetisch circuit\n(steekproef van k₅)")
+pcm2 = plotMC(throws2; title="MC voor ROS in het genetisch circuit\n(steekproef van k₅)",xlabel = "Tijd [s]", ylabel = "ROS [aantal moleculen]", dpi = 400, size = (600,400))
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -2134,9 +2120,12 @@ version = "0.9.1+5"
 """
 
 # ╔═╡ Cell order:
-# ╟─6dd4a604-d368-11ec-07be-5f0eaf1ddd96
+# ╟─588179f0-7172-4725-9d7a-3c173ade3c71
 # ╟─f40499ad-4189-4ee1-bc82-ea7d6b5f95b4
+# ╟─3a9b72c5-257e-4b3b-a06f-8857c941b103
 # ╟─cbcf34f2-0d0e-4cb0-86cb-b4402075b3e5
+# ╟─35f136e6-e97c-456f-a447-7660655411a3
+# ╟─36e38a8e-9d27-4376-8a9a-6ae45814ee31
 # ╠═fee5409a-d412-4a47-a54d-3fc41ee93e25
 # ╟─aa496799-e8ff-4fee-b4ad-17909ea30e60
 # ╟─5a6f6976-28a2-453e-b187-64afb1c13cc6
@@ -2145,13 +2134,8 @@ version = "0.9.1+5"
 # ╠═caa02bca-2dfd-4144-b634-bf044f39ac34
 # ╟─fd830684-54d7-42c9-aa8d-2989481715bf
 # ╟─5630d679-6e78-48dd-a40b-9daf59650666
-# ╠═023b3d93-f2c6-4d5b-926c-e68b31b43c52
-# ╟─00d98bde-9231-4ae7-87ac-8a6996e7b6f5
+# ╟─023b3d93-f2c6-4d5b-926c-e68b31b43c52
 # ╟─4ce3ca2a-0332-4fba-b042-4b1ad45317cd
-# ╟─c7c5088f-5513-45b0-a9fe-5038931dd542
-# ╟─5983069f-1b7f-4a02-843d-569d61e0e214
-# ╟─deb2638b-50db-4bb8-99a6-6992845e415d
-# ╟─2ed8a86b-ba1c-4a72-af0d-994c137d3337
 # ╟─91a5da39-ae33-465d-a9eb-23c6ab07c753
 # ╟─7c96615d-8bac-4ecc-b0a3-78d6ca5b061c
 # ╟─9be17ddc-8c77-49e7-b27a-99a339e94dfa
@@ -2163,6 +2147,8 @@ version = "0.9.1+5"
 # ╠═6510cfcc-3f47-4087-a7c5-06a187b96a67
 # ╠═a7e1dcbd-16ff-4c86-808e-dfc486859846
 # ╟─1f5ab1ff-d84d-4eb4-9c6d-98c6d853fdaa
+# ╟─5ce768f9-99f9-428b-a43f-cc362be73322
+# ╟─7dddc2ae-b2af-45f8-8f72-2a5b61a84fa9
 # ╟─8d799bcc-2bcd-4d55-a842-c99b3c62b053
 # ╟─a6a6fee5-0e51-4d6b-ae3e-f222aa070aed
 # ╟─1f66fcac-d3cd-4d2d-a407-4df08229ccd4
