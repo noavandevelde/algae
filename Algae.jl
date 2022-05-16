@@ -36,17 +36,15 @@ md"# Modelleren van algen in koralen"
 md"## Maatschappelijk probleem"
 
 # ╔═╡ cbcf34f2-0d0e-4cb0-86cb-b4402075b3e5
-md"Het Great Barrier Reef, gelegen aan de kust van Queensland in Australië, is het grootste koraalrif ter wereld. Het is een prachtig ecosysteem waarvan de ecosysteemdiensten een vitale functie uitoefenen voor veel plaatselijke gemeenschappen. In 1997 werd duidelijk dat klimaatverandering een negatieve invloed had op de werking van het rif, dit jaar werd dan ook uitgeroepen tot jaar van het rif (UNSW Australia iGEM 2020, 2020).
+md"Het *Great Barrier Reef*, gelegen aan de kust van Queensland in Australië, is het grootste koraalrif ter wereld. Het is een prachtig ecosysteem waarvan de ecosysteemdiensten een vitale functie uitoefenen voor veel plaatselijke gemeenschappen. In 1997 werd duidelijk dat klimaatverandering een negatieve invloed had op de werking van het rif, dit jaar werd dan ook uitgeroepen tot jaar van het rif (UNSW Australia iGEM 2020, 2020).
 
-In 2020 probeert het Australische team van de iGEM-competitie dit complex probleem door middel van een genetisch circuit  aan te pakken. Zij focusten op de invloed van een temperatuursstijging op de symbiose tussen het koraal en micro-algen zoals *Symbiodinium* spp.. Koralen en micro-algen zijn afhankelijk van elkaar voor hun overleving. De algen doen dienst als de primaire voedselbron voor het koraal en zorgen voor hun kleur (NOAA, 2021). Door een stijging in temperatuur ondervinden de micor-algen oxidatieve stress veroorzaakt door verhoogde ROS niveaus (Lesser, 1997). Hierdoor verliezen koralen hun symbiose met de micro-algen waardoor ze sterven en verbleken (NOAA, 2021). Dit fenomeen heet *coral bleaching*."
+In 2020 probeert een Australisch team van de iGEM-competitie dit complex probleem door middel van een genetisch circuit  aan te pakken. Zij focusten op de invloed van een temperatuurstijging op de symbiose tussen het koraal en micro-algen zoals *Symbiodinium* species. Koralen en micro-algen zijn afhankelijk van elkaar voor hun overleving. De algen doen dienst als de primaire voedselbron voor het koraal en zorgen voor hun kleur (NOAA, 2021). Door een stijging in temperatuur ondervinden de micor-algen oxidatieve stress veroorzaakt door verhoogde ROS niveaus (Lesser, 1997). Het resultaat van deze stress is dat de fotosynthese in micro-algen geïnhibeerd wordt. Hierdoor kunnen de micro-algen de koralen niet meer voorzien van voedsel en verliezen de koralen de positieve effecten van de symbiose waardoor ze verbleken en soms zelf sterven (NOAA, 2021). Dit fenomeen heet *coral bleaching*."
 
 # ╔═╡ 35f136e6-e97c-456f-a447-7660655411a3
 md"## Moleculaire mechanismen"
 
 # ╔═╡ 36e38a8e-9d27-4376-8a9a-6ae45814ee31
-md"Onder normale omstandigheden is er een evenwicht tussen de aanmaak en afbraak
-van verkeerd opgevouwen eiwitten. Onder invloed van reactieve zuurstof
-species (ROS) worden ze uit goed opgevouwen eiwitten aangemaakt, door natuurlijke reparatiesystemen kunnen ze vervolgens afgebroken worden. Wanneer de temperatuur van het zeewater in het rif echter te veel stijgt komt er meer ROS vrij, waardoor  het evenwicht verstoord wordt. Er worden meer natuurlijke eiwitten afgebroken en de natuurlijke systemen kunnen niet alle verkeerd opgevouwen eiwitten op tijd afbreken. Hierdoor accumuleren deze in de cel en verliezen de micro-algen aan functie. Dit natuurlijk systeem wordt hieronder beschreven."
+md"ROS zorgen ervoor dat natuurlijke eiwitten (NatP) verkeerd opgevouwen worden. In normale omstandigheden is er een evenwicht tussen de aanmaak en afbraak van verkeerd opgevouwen eiwitten (MisP). Natuurlijke reparatiesystemen breken deze eiwitten namelijk af. Wanneer de temperatuur van het zeewater in het rif echter te veel stijgt komt er meer ROS vrij, waardoor  het evenwicht verstoord wordt. Er worden meer natuurlijke eiwitten afgebroken en de natuurlijke systemen kunnen niet alle verkeerd opgevouwen eiwitten op tijd afbreken. Hierdoor accumuleren deze in de cel en verliezen de micro-algen aan functie. Dit natuurlijk systeem wordt hieronder beschreven."
 
 # ╔═╡ aa496799-e8ff-4fee-b4ad-17909ea30e60
 CoralsNat = @reaction_network CoralsNat begin
@@ -62,7 +60,7 @@ k₁₂, MisP --> ∅
 end k₁ k₂ k₃ k₄ k₅ k₁₂
 
 # ╔═╡ 5a6f6976-28a2-453e-b187-64afb1c13cc6
-md"Het genetisch circuit dat hieronder gemodelleerd wordt is gebaseerd op dat van UNSW Australia iGEM 2020 (2020). ROS is de input en wordt gedetecteerd door OxyR, een transcriptiefactor. Dit is de inputmodule. OxyR activeert in de *processing* stap twee systemen: het glutathion systeem en het *heat shock protein* (HSP) systeem. OxyR zorgt ervoor dat gereduceerd glutathion (ReducedGlutathione) geproduceerd wordt. Gereduceerd glutathion kan ROS neutraliseren, hierbij wordt geoxideerd glutathion (OxidisedGlutathione) gevormd dat veel minder reactief is dan ROS. Dit geoxideerd glutathion kan nadien terug omgezet worden tot gereduceerd glutathion. Om deze reacties uit te voeren zijn twee enzymen nodig: glutathion synthetase en glutathion reductase. OxyR zorgt verder ook voor expressie van genen die coderen voor HSP's, die verkeerd opgevouwen eiwitten correct opvouwen. De outputmodule is de expressie van de genen die coderen voor glutathion synthetase, glutathion reductase en HSP's. Deze eiwitten zijn dan ook de \textit{outputs} van ons systeem. Het genetisch circuit wordt als volgt voorgesteld:"
+md"Het genetisch circuit dat hieronder gemodelleerd wordt is gebaseerd op dat van UNSW Australia iGEM 2020 (2020). ROS is de input en wordt gedetecteerd door OxyR, een transcriptiefactor. Dit is de inputmodule. OxyR activeert in de *processingstap* twee systemen: het glutathion systeem en het *heat shock protein* (HSP) systeem. OxyR zorgt ervoor dat gereduceerd glutathion (ReducedGlutathione) geproduceerd wordt. Gereduceerd glutathion kan ROS neutraliseren, hierbij wordt geoxideerd glutathion (OxidisedGlutathione) gevormd dat veel minder reactief is dan ROS. Dit geoxideerd glutathion kan nadien terug omgezet worden tot gereduceerd glutathion. Om deze reacties uit te voeren zijn twee enzymen nodig: glutathion synthetase en glutathion reductase. OxyR zorgt verder ook voor expressie van genen die coderen voor HSP's, die verkeerd opgevouwen eiwitten correct opvouwen. De outputmodule is de expressie van de genen die coderen voor glutathion synthetase, glutathion reductase en HSP's. Deze eiwitten zijn dan ook de *outputs* van ons systeem. Het genetisch circuit wordt als volgt voorgesteld:"
 
 # ╔═╡ 0a0c17fc-b0c1-4085-a4a3-591de88cf901
 Corals = @reaction_network Corals begin 
@@ -100,9 +98,9 @@ odesysNat = convert(ODESystem, CoralsNat)
 odesysGen = convert(ODESystem, Corals)
 
 # ╔═╡ 4ce3ca2a-0332-4fba-b042-4b1ad45317cd
-md"Om ook de temperatuurverhoging in rekening te brengen werd volgende redenering uit hetzelfde iGEM project gevolgd. De waarden voor de reactiesnelheidsconstanten (k-waarden) zijn gerelateerd aan de temperatuur volgens de vergelijking van Arrhenius: $k = Ae^{\frac{-E_a}{RT}}$. A stelt hier de frequentiefactor voor. Deze is specifiek voor een bepaalde reactie bij een bepaalde temperatuur maar verandert nauwelijks bij een temperatuurstijging. $E_{a}$ is de activeringsenergie $[\,J\,]$, R is de gasconstante $[\,J\, K^{-1}\, mol^{-1}\,]$ en T is de temperatuur $[\,K\,]$.
+md"Om ook de temperatuurverhoging in rekening te brengen werd volgende redenering uit hetzelfde iGEM project gevolgd. De waarden voor de reactiesnelheidsconstanten (k-waarden) zijn gerelateerd aan de temperatuur volgens de vergelijking van Arrhenius: $k = Ae^{\frac{-E_a}{RT}}$. A stelt hier de frequentiefactor $[\, s^ {-1}\,]$ voor. Deze is specifiek voor een bepaalde reactie bij een bepaalde temperatuur maar verandert nauwelijks bij een temperatuurstijging. $E_{a}$ is de activeringsenergie $[\,J\, mol^{-1}\,]$, R is de gasconstante $[\,J\, K^{-1}\, mol^{-1}\,]$ en T is de temperatuur $[\,K\,]$.
 
-De factor die hieronder gedefinieerd wordt is de verhouding tussen een gekozen temperatuur en de referentietemperatuur, hier 25°C. De gekozen temperatuur wordt ingesteld met een slider onderaan de simulatie. Aangezien verhoogde temperaturen vooral een sterke invloed op ROS productie hebben, is de factor in rekening gebracht bij de reactie waar ROS geproduceerd wordt (k₅)(Fedyaeva et al., 2014). We verwaarlozen het effect van de temperatuur op de andere k-waarden."
+De factor die hieronder gedefinieerd wordt is de verhouding tussen een gekozen temperatuur en de referentietemperatuur, hier 25°C. De gekozen temperatuur wordt ingesteld met een slider onderaan de simulatie. Aangezien verhoogde temperaturen vooral een sterke invloed op ROS-productie hebben, is de factor in rekening gebracht bij de reactie waar ROS geproduceerd wordt (k₅)(Fedyaeva et al., 2014). We verwaarlozen het effect van de temperatuur op de andere reactiesnelheidsconstanten."
 
 # ╔═╡ 7c96615d-8bac-4ecc-b0a3-78d6ca5b061c
 md"Vervolgens werden volgende reactiesnelheidsconstanten en initiële waarden gedefinieerd:"
@@ -113,7 +111,7 @@ md"k₁ tot en met k₄, k₁₁ en k₁₂ zijn gebaseerd op onderzoek van Proc
 Alle initiële waarden van de variabelen zijn ook afkomstig van UNSW Australia iGEM 2020 (2020)."
 
 # ╔═╡ c6992301-b8ca-473b-a4e4-a24a626ee5cc
-md"Hieronder worden de differentiaalvergelijkingen opgelost. Eerst wordt er een ODEProblem van gemaakt met behulp van de reactiesnelheidsconstanten en initiële waarden. Dit wordt vervolgens opgelost volgens de Rosenbrock methode voor stijve differentiaalvergelijkingen."
+md"Hieronder worden de differentiaalvergelijkingen opgelost. Eerst wordt er een ODEProblem van gemaakt met behulp van de reactiesnelheidsconstanten en initiële waarden. Dit wordt vervolgens opgelost volgens de Rosenbrockmethode voor stijve differentiaalvergelijkingen."
 
 # ╔═╡ 1f5ab1ff-d84d-4eb4-9c6d-98c6d853fdaa
 md"Nu het model is opgelost, kunnen de resultaten weergegeven worden. Op onderstaande grafieken is het verloop van ROS en MisP te zien doorheen de tijd. Met onderstaande slider kan een temperatuursverhoging in rekening gebracht worden."
@@ -166,7 +164,7 @@ tsteps = 0:0.5:100
 md"Hier werd de Monte Carlo analyse toegepast voor 100 willekeurige waarden uit de lognormale verdeling rond k₅. Er werd gekozen om ROS te visualiseren bij 25°C omdat hier een duidelijke invloed van de parameter te zien is."
 
 # ╔═╡ 5c5fdb04-dc1d-46c8-b0c3-d47f9778acc6
-md"Op de grafiek van het natuurlijk systeem is te zien dat wanneer k₅ afwijkt van de gekozen waarde (1.65e-9) het evenwicht niet bewaard wordt (bij 25°C). Deze snelheidsreactieconstante bepaalt hoe snel ROS en natuurlijke proteïnen opgebruikt worden voor de productie van verkeerd opgevouwen proteïnen. De hoeveelheid ROS stijgt als k₅ kleiner wordt en daalt wanneer k₅ groter wordt.
+md"Op de grafiek van het natuurlijk systeem is te zien dat wanneer k₅ afwijkt van de gekozen waarde ($1.65 \cdot 10^{-9}$) het evenwicht niet bewaard wordt (bij 25°C). Deze snelheidsreactieconstante bepaalt hoe snel ROS en natuurlijke proteïnen opgebruikt worden voor de productie van verkeerd opgevouwen proteïnen. De hoeveelheid ROS stijgt als k₅ kleiner wordt en daalt wanneer k₅ groter wordt.
 
 Bij het genetisch circuit is te zien dat het circuit ROS voor elke waarde van k₅ afbreekt, hetzij wat sneller of wat trager, maar hier zit er heel wat minder speling op k₅."
 
